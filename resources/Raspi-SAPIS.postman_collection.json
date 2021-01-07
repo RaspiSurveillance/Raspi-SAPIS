@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "f8f54b16-9b59-4726-b0ec-ec3767ec4624",
+		"name": "Raspi-SAPIS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8200/start/surveillance",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<name>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/start/surveillance",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"start",
+						"surveillance"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8200/stop",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<name>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8200/stop",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"stop"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8200/start/camerastream",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "<password>",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "<name>",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"<name>\",\n\t\"password\": \"<password>\",\n\t\"options\": {\n\t\t\"--reswidth\": 1280,\n\t\t\"--resheight\": 900,\n\t\t\"--framerate\": 8,\n\t\t\"--rotation_degrees\": 0,\n\t\t\"--awb\": \"auto\",\n\t\t\"--filter\": \"none\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8200/start/camerastream",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8200",
+					"path": [
+						"start",
+						"camerastream"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

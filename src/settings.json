@@ -1,0 +1,16 @@
+{
+    "server": {
+        "url": "",
+        "port": 4443,
+        "certfile": "",
+        "keyfile": ""
+    },
+    "camerastream": {
+        "active": true,
+        "dir": "/Users/denmeyer/Programming/RaspiSurveillance/Raspi-CameraStreamingServer"
+    },
+    "surveillance": {
+        "active": true,
+        "dir": "/Users/denmeyer/Programming/RaspiSurveillance/Raspi-Surveillance"
+    }
+}

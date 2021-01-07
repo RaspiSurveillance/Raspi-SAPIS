@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd $DIR/src
+if [[ ! -e /tmp/raspi-camerastreamingserver.py.pid ]]; then
+    echo "Starting Raspi-CameraStreamingServer..."
+    python3 raspi-camerastreamingserver.py $NAME:$PASSWORD $OPTIONS &
+    echo $! > /tmp/raspi-camerastreamingserver.py.pid
+    echo "Raspi-CameraStreamingServer has been started with pid "
+    cat /tmp/raspi-camerastreamingserver.py.pid
+else
+    echo -n "ERROR: Raspi-CameraStreamingServer seems to be running with pid "
+    cat /tmp/raspi-camerastreamingserver.py.pid
+    echo
+fi
