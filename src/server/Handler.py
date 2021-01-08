@@ -220,6 +220,43 @@ class Handler(server.BaseHTTPRequestHandler):
 
         return p_status == 0
 
+    def _execute_shutdown(self):
+        '''Executes shutdown script'''
+        logging.debug('Executing shutdown script')
+
+        _dir = self.settings.get('shutdown')['dir']
+
+        logging.debug('Loading template')
+        template_name = 'shutdown'
+        script_name = '{}.sh'.format(template_name)
+        tmpl = ''
+        try:
+            tmpl = load_template(template_name, {})
+        except Exception as e:
+            logging.error(
+                'Failed to load template "{}": {}'.format(script_name, e))
+            return False
+
+        create_script_result = create_script(
+            _dir, self.FOLDER_SCRIPTS_GENERATED, script_name, tmpl)
+        if not create_script_result[0]:
+            return False
+        script_folder_path = create_script_result[1]
+
+        cmd = 'cd {} ; ./{} ;'.format(script_folder_path, script_name)
+
+        logging.debug('Executing command {}'.format(cmd))
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+        p_status = p.wait()
+
+        '''
+        (output, err) = p.communicate()
+        logging.debug('>>> Command output: {}'.format(output))
+        logging.debug('>>> Command exit status/return code: {}'.format(p_status))
+        '''
+
+        return p_status == 0
+
     def do_HEAD(self):
         '''HEAD method'''
         logging.debug('Handling HEAD')
@@ -268,6 +305,13 @@ class Handler(server.BaseHTTPRequestHandler):
                     self._send_NOT_OK()
             elif self.path == '/stop':
                 if self._execute_stop_camerastream() and self._execute_stop_surveillance():
+                    self._send_OK()
+                else:
+                    self._send_NOT_OK()
+            elif self.path == '/shutdown':
+                self._execute_stop_camerastream()
+                self._execute_stop_surveillance()
+                if self._execute_shutdown():
                     self._send_OK()
                 else:
                     self._send_NOT_OK()

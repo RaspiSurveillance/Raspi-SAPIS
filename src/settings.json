@@ -12,5 +12,9 @@
     "surveillance": {
         "active": true,
         "dir": "/Users/denmeyer/Programming/RaspiSurveillance/Raspi-Surveillance"
+    },
+    "shutdown": {
+        "active": true,
+        "dir": "/Users/denmeyer/Programming/RaspiSurveillance"
     }
 }
