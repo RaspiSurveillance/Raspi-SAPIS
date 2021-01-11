@@ -15,5 +15,13 @@
     },
     "shutdown": {
         "dir": "/Users/denmeyer/Programming/RaspiSurveillance"
+    },
+    "api": {
+        "/start/camerastream": true,
+        "/start/surveillance": true,
+        "/stop": true,
+        "/shutdown": true,
+        "/startup": false,
+        "/shutdown/master": false
     }
 }

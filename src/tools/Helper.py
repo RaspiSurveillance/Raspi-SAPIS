@@ -85,7 +85,7 @@ def parse_args(__prog__, settings):
     return args
 
 
-def has_all_arguments(obj, arguments_list=[]):
+def has_arguments(obj, arguments_list=[]):
     '''Checks whether the given object has all arguments in a given list
 
     :param obj: The object

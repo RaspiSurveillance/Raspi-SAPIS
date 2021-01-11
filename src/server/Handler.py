@@ -15,7 +15,7 @@ from http import server
 import json
 import os
 
-from tools.Helper import has_all_arguments, load_template, create_script
+from tools.Helper import has_arguments, load_template, create_script
 
 
 class Handler(server.BaseHTTPRequestHandler):
@@ -57,7 +57,7 @@ class Handler(server.BaseHTTPRequestHandler):
 
         logging.debug('Loading JSON body')
         json_body = {}
-        logging.info(body);
+        logging.info(body)
         try:
             json_body = json.loads(body)
             logging.info(json_body)
@@ -66,7 +66,7 @@ class Handler(server.BaseHTTPRequestHandler):
             return False
 
         logging.debug('Checking arguments')
-        if not has_all_arguments(json_body, ['name', 'password']):
+        if not has_arguments(json_body, ['name', 'password']):
             return False
 
         _dir = self.settings.get('camerastream')['dir']
@@ -80,7 +80,7 @@ class Handler(server.BaseHTTPRequestHandler):
                 'dir': _dir,
                 'name': json_body['name'],
                 'password': json_body['password'],
-                'options': json_body['options']
+                'options': json_body['options'] if has_arguments(json_body, ['options']) else {}
             })
         except Exception as e:
             logging.error(
@@ -145,6 +145,60 @@ class Handler(server.BaseHTTPRequestHandler):
         '''
 
         return p_status == 0
+
+    def _execute_startup(self, body):
+        '''Executes startup script'''
+        logging.debug('Executing startup script')
+
+        logging.debug('Loading JSON body')
+        json_body = {}
+        logging.info(body)
+        try:
+            json_body = json.loads(body)
+            logging.info(json_body)
+        except Exception as e:
+            logging.error('Failed to load JSON body: {}'.format(e))
+            return False
+
+        logging.debug('Checking arguments')
+        if not has_arguments(json_body, ['id']):
+            return False
+
+        # TODO: Execute http request to Delock with ID json_body['id']
+        ''' API:
+        http://delock-XXXX.local/cm?cmnd=Power%20TOGGGLE
+        http://delock-XXXX.local/cm?cmnd=Strom%20On
+        http://delock-XXXX.local/cm?cmnd=Power%20off
+        http://delock-XXXX.local/cm?&user=put_username_here&password=put_password_here&cmnd=Power%20On
+        '''
+        return True
+
+    def _execute_shutdownMaster(self, body):
+        '''Executes startup script'''
+        logging.debug('Executing startup master script')
+
+        logging.debug('Loading JSON body')
+        json_body = {}
+        logging.info(body)
+        try:
+            json_body = json.loads(body)
+            logging.info(json_body)
+        except Exception as e:
+            logging.error('Failed to load JSON body: {}'.format(e))
+            return False
+
+        logging.debug('Checking arguments')
+        if not has_arguments(json_body, ['id']):
+            return False
+
+        # TODO: Execute http request to Delock with ID json_body['id']
+        ''' API:
+        http://delock-XXXX.local/cm?cmnd=Power%20TOGGGLE
+        http://delock-XXXX.local/cm?cmnd=Strom%20On
+        http://delock-XXXX.local/cm?cmnd=Power%20off
+        http://delock-XXXX.local/cm?&user=put_username_here&password=put_password_here&cmnd=Power%20On
+        '''
+        return True
 
     def _execute_stop_camerastream(self):
         '''Executes stop camerastream script'''
@@ -289,6 +343,17 @@ class Handler(server.BaseHTTPRequestHandler):
             self.wfile.write(b'no auth header received')
         elif header_auth == 'Basic ' + self.USERNAME_PASSWORD_BASE64.decode('UTF-8'):
             logging.debug('Authorized')
+
+            try:
+                if not self.settings.get('api')[self.path]:
+                    logging.info('API endpoint not activated')
+                    self._send_NOT_OK()
+                    return
+            except:
+                self.send_error(404)
+                self.end_headers()
+                return
+
             if self.path == '/start/camerastream':
                 content_length = int(self.headers['Content-Length'])
                 body = self.rfile.read(content_length)
@@ -312,6 +377,20 @@ class Handler(server.BaseHTTPRequestHandler):
                 self._execute_stop_camerastream()
                 self._execute_stop_surveillance()
                 if self._execute_shutdown():
+                    self._send_OK()
+                else:
+                    self._send_NOT_OK()
+            elif self.path == '/startup':
+                content_length = int(self.headers['Content-Length'])
+                body = self.rfile.read(content_length)
+                if self._execute_startup(body):
+                    self._send_OK()
+                else:
+                    self._send_NOT_OK()
+            elif self.path == '/shutdown/master':
+                content_length = int(self.headers['Content-Length'])
+                body = self.rfile.read(content_length)
+                if self._execute_shutdownMaster(body.decode()):
                     self._send_OK()
                 else:
                     self._send_NOT_OK()
