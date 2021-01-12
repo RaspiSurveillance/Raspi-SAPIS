@@ -23,6 +23,6 @@
         "/shutdown/master": false
     },
     "servers": {
-        "htr": "http://<some.url>"
+        "<id1>": "http://<some.url>"
     }
 }
