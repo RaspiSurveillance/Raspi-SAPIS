@@ -358,7 +358,7 @@ class Handler(server.BaseHTTPRequestHandler):
             self._do_authhead()
             self.wfile.write(b'no auth header received')
         elif header_auth == 'Basic ' + self.USERNAME_PASSWORD_BASE64.decode('UTF-8'):
-            logging.debug('Authorized')
+            logging.info('Authorized')
 
             try:
                 if not self.settings.get('api')[self.path]:
