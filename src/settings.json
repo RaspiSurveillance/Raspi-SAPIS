@@ -6,11 +6,9 @@
         "keyfile": ""
     },
     "camerastream": {
-        "active": true,
         "dir": "/Users/denmeyer/Programming/RaspiSurveillance/Raspi-CameraStreamingServer"
     },
     "surveillance": {
-        "active": true,
         "dir": "/Users/denmeyer/Programming/RaspiSurveillance/Raspi-Surveillance"
     },
     "shutdown": {
@@ -23,5 +21,8 @@
         "/shutdown": true,
         "/startup": false,
         "/shutdown/master": false
+    },
+    "servers": {
+        "htr": "http://<some.url>"
     }
 }

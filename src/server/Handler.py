@@ -164,6 +164,14 @@ class Handler(server.BaseHTTPRequestHandler):
         if not has_arguments(json_body, ['id']):
             return False
 
+        server_id = json_body['id']
+        if not server_id in self.settings.get('servers') or not self.settings.get('servers')[server_id].strip():
+            logging.info('Server ID "{}" not configured'.format(server_id))
+            return False
+
+        server_url = self.settings.get('servers')[server_id].strip()
+        logging.info('Server for server ID "{}": {}'.format(server_id, server_url))
+
         # TODO: Execute http request to Delock with ID json_body['id']
         ''' API:
         http://delock-XXXX.local/cm?cmnd=Power%20TOGGGLE
@@ -190,6 +198,14 @@ class Handler(server.BaseHTTPRequestHandler):
         logging.debug('Checking arguments')
         if not has_arguments(json_body, ['id']):
             return False
+
+        server_id = json_body['id']
+        if not server_id in self.settings.get('servers') or not self.settings.get('servers')[server_id].strip():
+            logging.info('Server ID "{}" not configured'.format(server_id))
+            return False
+
+        server_url = self.settings.get('servers')[server_id].strip()
+        logging.info('Server for server ID "{}": {}'.format(server_id, server_url))
 
         # TODO: Execute http request to Delock with ID json_body['id']
         ''' API:
