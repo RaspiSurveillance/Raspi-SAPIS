@@ -43,7 +43,7 @@ class Settings:
         ### Currently not in the settings file ###
 
         self.log_to_file = True
-        self.log_level = logging.DEBUG
+        self.log_level = logging.INFO
         self.log_format = '[%(asctime)s] [%(levelname)-7s] [%(module)-20s:%(lineno)-4s] %(message)s'
         self.log_dateformat = '%d-%m-%Y %H:%M:%S'
 

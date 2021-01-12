@@ -6,13 +6,13 @@
         "keyfile": ""
     },
     "camerastream": {
-        "dir": "/Users/denmeyer/Programming/RaspiSurveillance/Raspi-CameraStreamingServer"
+        "dir": "/path/to/Raspi-CameraStreamingServer"
     },
     "surveillance": {
-        "dir": "/Users/denmeyer/Programming/RaspiSurveillance/Raspi-Surveillance"
+        "dir": "/path/to//Raspi-Surveillance"
     },
     "shutdown": {
-        "dir": "/Users/denmeyer/Programming/RaspiSurveillance"
+        "dir": "/path/to"
     },
     "api": {
         "/start/camerastream": true,
