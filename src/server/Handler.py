@@ -152,7 +152,6 @@ class Handler(server.BaseHTTPRequestHandler):
 
         logging.debug('Loading JSON body')
         json_body = {}
-        logging.info(body)
         try:
             json_body = json.loads(body)
             logging.info(json_body)
@@ -187,7 +186,6 @@ class Handler(server.BaseHTTPRequestHandler):
 
         logging.debug('Loading JSON body')
         json_body = {}
-        logging.info(body)
         try:
             json_body = json.loads(body)
             logging.info(json_body)
