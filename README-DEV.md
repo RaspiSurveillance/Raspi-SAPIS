@@ -25,3 +25,21 @@ Authorization: Basic Auth
 ### PUT /stop
 
 Authorization: Basic Auth
+
+### PUT /shutdown
+
+Authorization: Basic Auth
+
+### PUT /startup
+
+Authorization: Basic Auth
+{
+	"id": "<id>"
+}
+
+### PUT /shutdown/master
+
+Authorization: Basic Auth
+{
+	"id": "<id>"
+}
