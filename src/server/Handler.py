@@ -174,7 +174,7 @@ class Handler(server.BaseHTTPRequestHandler):
 
         response = requests.put(server_url, data={})
 
-        return response.status_code >= 200 and < 300
+        return response.status_code >= 200 and response.status_code< 300
 
     def _execute_shutdownMaster(self, body):
         '''Executes startup script'''
@@ -203,7 +203,7 @@ class Handler(server.BaseHTTPRequestHandler):
 
         response = requests.put(server_url, data={})
 
-        return response.status_code >= 200 and < 300
+        return response.status_code >= 200 and response.status_code < 300
 
     def _execute_stop_camerastream(self):
         '''Executes stop camerastream script'''
