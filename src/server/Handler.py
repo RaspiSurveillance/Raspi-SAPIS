@@ -14,6 +14,7 @@ import subprocess
 from http import server
 import json
 import os
+import requests
 
 from tools.Helper import has_arguments, load_template, create_script
 
@@ -164,21 +165,16 @@ class Handler(server.BaseHTTPRequestHandler):
             return False
 
         server_id = json_body['id']
-        if not server_id in self.settings.get('servers') or not self.settings.get('servers')[server_id].strip():
+        if not server_id in self.settings.get('servers'):
             logging.info('Server ID "{}" not configured'.format(server_id))
             return False
 
-        server_url = self.settings.get('servers')[server_id].strip()
-        logging.info('Server for server ID "{}": {}'.format(server_id, server_url))
+        server_url = self.settings.get('servers')[server_id]['power_on']
+        logging.info('Server URL for starting up server ID "{}": {}'.format(server_id, server_url))
 
-        # TODO: Execute http request to Delock with ID json_body['id']
-        ''' API:
-        http://delock-XXXX.local/cm?cmnd=Power%20TOGGGLE
-        http://delock-XXXX.local/cm?cmnd=Strom%20On
-        http://delock-XXXX.local/cm?cmnd=Power%20off
-        http://delock-XXXX.local/cm?&user=put_username_here&password=put_password_here&cmnd=Power%20On
-        '''
-        return True
+        response = requests.put(server_url, data={})
+
+        return response.status_code >= 200 and < 300
 
     def _execute_shutdownMaster(self, body):
         '''Executes startup script'''
@@ -198,21 +194,16 @@ class Handler(server.BaseHTTPRequestHandler):
             return False
 
         server_id = json_body['id']
-        if not server_id in self.settings.get('servers') or not self.settings.get('servers')[server_id].strip():
+        if not server_id in self.settings.get('servers'):
             logging.info('Server ID "{}" not configured'.format(server_id))
             return False
 
-        server_url = self.settings.get('servers')[server_id].strip()
-        logging.info('Server for server ID "{}": {}'.format(server_id, server_url))
+        server_url = self.settings.get('servers')[server_id]['power_off']
+        logging.info('Server URL for shutting down server ID "{}": {}'.format(server_id, server_url))
 
-        # TODO: Execute http request to Delock with ID json_body['id']
-        ''' API:
-        http://delock-XXXX.local/cm?cmnd=Power%20TOGGGLE
-        http://delock-XXXX.local/cm?cmnd=Strom%20On
-        http://delock-XXXX.local/cm?cmnd=Power%20off
-        http://delock-XXXX.local/cm?&user=put_username_here&password=put_password_here&cmnd=Power%20On
-        '''
-        return True
+        response = requests.put(server_url, data={})
+
+        return response.status_code >= 200 and < 300
 
     def _execute_stop_camerastream(self):
         '''Executes stop camerastream script'''

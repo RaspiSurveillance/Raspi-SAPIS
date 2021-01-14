@@ -23,6 +23,9 @@
         "/shutdown/master": false
     },
     "servers": {
-        "<id1>": "http://<some.url>"
+        "<id1>": {
+            "power_on": "http://<some.url>/cm?cmnd=Power%20On",
+            "power_off": "http://<some.url>/cm?cmnd=Power%20Off"
+        }
     }
 }
