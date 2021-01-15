@@ -92,7 +92,7 @@ def has_arguments(obj, arguments_list=[]):
     :param arguments_list: The list
     '''
     for arg in arguments_list:
-        if not arg in obj or not obj[arg].strip():
+        if not arg in obj:
             return False
     return True
 
