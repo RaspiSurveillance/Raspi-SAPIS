@@ -112,6 +112,16 @@ class Handler(server.BaseHTTPRequestHandler):
         '''Executes start surveillance script'''
         logging.debug('Executing start surveillance script')
 
+        logging.debug('Loading JSON body')
+        json_body = {}
+        logging.info(body)
+        try:
+            json_body = json.loads(body)
+            logging.info(json_body)
+        except Exception as e:
+            logging.error('Failed to load JSON body: {}'.format(e))
+            return False
+
         _dir = self.settings.get('surveillance')['dir']
 
         logging.debug('Loading template')
