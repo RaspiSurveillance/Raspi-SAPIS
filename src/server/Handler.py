@@ -120,7 +120,8 @@ class Handler(server.BaseHTTPRequestHandler):
         tmpl = ''
         try:
             tmpl = load_template(template_name, {
-                'dir': _dir
+                'dir': _dir,
+                'options': json_body['options'] if has_arguments(json_body, ['options']) else {}
             })
         except Exception as e:
             logging.error(
